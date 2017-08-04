@@ -28,7 +28,7 @@ var server = app.listen(1337, function(){
 });
 var io = socketio.listen(server);
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__wikistack, '/public')));
 
 // modular routing that uses io inside it
 app.use('/', makesRouter(io));
