@@ -3,27 +3,40 @@ var express = require('express');
 var app = express();
 var morgan = require('morgan');
 var nunjucks = require('nunjucks');
-var makesRouter = require('./routes');
+var routes = require('./routes');
 var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
-var socketio = require('socket.io');
+// var socketio = require('socket.io');
 var models = require('./models');
+var Promise = require('bluebird');
 
 
-models.db.sync({force: true})
-.then(function () {
-    // make sure to replace the name below with your express app
-    app.listen(3000, function () {
-        console.log('Server is listening on port 3001!');
-    });
-})
-.catch(console.error);
 
-models.User.sync({})
-.then(function () {
-    return models.Page.sync({})
-})
+
+
+// models.User.sync({})
+// .then(function () {
+//     return models.Page.sync({});
+// })
+// .then(function () {
+//     // make sure to replace the name below with your express app
+//     app.listen(3000, function () {
+//         console.log('Server is listening on port 3000!');
+//     });
+// })
+// .catch(console.error);
+
+// models.db.sync({force: true})
+// .then(function () {
+//     // make sure to replace the name below with your express app
+//     app.listen(3000, function () {
+//         console.log('Server is listening on port 3000!');
+//     });
+// })
+// .catch(console.error);
+
+models.db.sync({force: false})
 .then(function () {
     // make sure to replace the name below with your express app
     app.listen(3000, function () {
@@ -31,7 +44,6 @@ models.User.sync({})
     });
 })
 .catch(console.error);
-
 
 
 // templating boilerplate setup
@@ -55,8 +67,9 @@ app.use(bodyParser.json()); // would be for AJAX requests
 // });
 // var io = socketio.listen(server);
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/stylesheets')));
+
 
 // // modular routing that uses io inside it
-// app.use('/', makesRouter(io));
+app.use('/', routes);
 

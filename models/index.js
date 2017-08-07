@@ -6,10 +6,12 @@ var router = express.Router();
 //sequelize stuff
 
 var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/wikistack');
+var db = new Sequelize('postgres://localhost:5432/wikistack', {
+  logging: false
+});
 
 
-router.get('/', index.html);
+// router.get('/', index.html);
 
 const Page = db.define('page', {
   title: {
