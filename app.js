@@ -8,6 +8,31 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var socketio = require('socket.io');
+var models = require('./models');
+
+
+models.db.sync({force: true})
+.then(function () {
+    // make sure to replace the name below with your express app
+    app.listen(3000, function () {
+        console.log('Server is listening on port 3001!');
+    });
+})
+.catch(console.error);
+
+models.User.sync({})
+.then(function () {
+    return models.Page.sync({})
+})
+.then(function () {
+    // make sure to replace the name below with your express app
+    app.listen(3000, function () {
+        console.log('Server is listening on port 3000!');
+    });
+})
+.catch(console.error);
+
+
 
 // templating boilerplate setup
 app.engine('html', nunjucks.render); // how to render html templates
@@ -21,13 +46,17 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true })); // for HTML form submits
 app.use(bodyParser.json()); // would be for AJAX requests
 
+
+
+
 // start the server
-var server = app.listen(1337, function(){
-  console.log('listening on port 1337');
-});
-var io = socketio.listen(server);
+// var server = app.listen(1337, function(){
+//   console.log('listening on port 1337');
+// });
+// var io = socketio.listen(server);
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-// modular routing that uses io inside it
-app.use('/', makesRouter(io));
+// // modular routing that uses io inside it
+// app.use('/', makesRouter(io));
+
