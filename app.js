@@ -6,7 +6,6 @@ var nunjucks = require('nunjucks');
 var makesRouter = require('./routes');
 var fs = require('fs');
 var path = require('path');
-var mime = require('mime');
 var bodyParser = require('body-parser');
 var socketio = require('socket.io');
 
@@ -28,7 +27,7 @@ var server = app.listen(1337, function(){
 });
 var io = socketio.listen(server);
 
-app.use(express.static(path.join(__wikistack, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // modular routing that uses io inside it
 app.use('/', makesRouter(io));
